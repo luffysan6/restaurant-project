@@ -1,5 +1,6 @@
 import UserModel from "../model/User.model.js";
 import { comparePassword, genHashPassword } from "../utils/bcrypt.js";
+import { checktoken, gentoken } from "../utils/genToken.js";
 
 export const AuthHome = async (req, res) => {
   try {
@@ -74,8 +75,12 @@ export const getUser = async (req, res) => {
     const existingUser = await UserModel.findOne({
       email: email,
     });
-
+    const token = await gentoken({
+      id: existingUser._id,
+      name: existingUser.name,
+    });
     if (await comparePassword(password, existingUser.password)) {
+      res.cookie("jwt", token, { maxAge: 7 * 24 * 24 * 60, httpOnly: true });
       return res.status(200).json({
         message: "Login Successful",
         success: true,
@@ -88,6 +93,26 @@ export const getUser = async (req, res) => {
     }
   } catch (error) {
     console.log("Error At Home Route auth/ \t", error.message);
+    return res.status(500).json({
+      message: "Error at Server",
+      success: false,
+    });
+  }
+};
+
+export const checkAuth = async (req, res) => {
+  try {
+    // console.log(req);
+    let token = req.headers.authorization;
+    token = token.split(" ")[1];
+
+    console.log(token);
+
+    // return res;
+
+    console.log(await checktoken(token));
+  } catch (error) {
+    console.log("Error At Token Check/ \t", error.message);
     return res.status(500).json({
       message: "Error at Server",
       success: false,

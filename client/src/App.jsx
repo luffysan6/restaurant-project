@@ -81,7 +81,7 @@ function App() {
               </svg>
               <span>AI-driven image enhancements</span>
             </li>
-            <li className="opacity-50">
+            <li className="opamcity-50">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="size-4 me-2 inline-block text-base-content/50"
