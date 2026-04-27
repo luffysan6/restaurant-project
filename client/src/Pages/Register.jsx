@@ -1,4 +1,6 @@
-const Login = () => {
+import React from "react";
+
+const Register = () => {
   return (
     <>
       <div class="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -8,6 +10,16 @@ const Login = () => {
           </h2>
 
           <form class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                Full Name
+              </label>
+              <input
+                type="text"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                placeholder="John Doe"
+              />
+            </div>
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1">
                 Email
@@ -63,4 +75,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
