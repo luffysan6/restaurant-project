@@ -1,11 +1,48 @@
 import { create } from "zustand";
+import { axiosInstance } from "../utils/axios";
 
 const authStore = create((set, get) => ({
-  count: 0,
-  setcount: () => set((state) => ({ count: state.count + 1 })),
-  getcount: () => {
-    let { count } = get();
-    console.log(count);
+  isAuth: false,
+  authToken: null,
+  checkAuth: async () => {
+    let request = await axiosInstance.get("/auth/check");
+
+    // console.log(request);
+    const { success } = request.data;
+
+    if (success) {
+      set({ isAuth: true });
+    }
+    return;
+  },
+  Login: async ({ email, password }) => {
+    const request = await axiosInstance.post("/auth/login", {
+      email,
+      password,
+    });
+
+    let result = await request.data;
+
+    if (result.success) {
+      set({ isAuth: true });
+    }
+    return result;
+  },
+  Register: async ({ email, name, password }) => {
+    let resposne = await fetch("http://localhost:3000/auth", {
+      method: "POST",
+      body: JSON.stringify({ name: name, email: email, password: password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    let result = await resposne.json();
+
+    if (result.success) {
+      set({ isAuth: true });
+    }
+    return result;
   },
 }));
 

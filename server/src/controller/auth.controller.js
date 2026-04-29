@@ -1,3 +1,4 @@
+import { response } from "express";
 import UserModel from "../model/User.model.js";
 import { comparePassword, genHashPassword } from "../utils/bcrypt.js";
 import { checktoken, gentoken } from "../utils/genToken.js";
@@ -50,6 +51,7 @@ export const SaveUser = async (req, res) => {
 
     return res.status(201).json({
       message: "User Created Successfully",
+      success: true,
       user: result,
     });
   } catch (error) {
@@ -63,7 +65,12 @@ export const SaveUser = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
+    // console.log(req);
     const { email, password } = req.body || {};
+    console.log({
+      email,
+      password,
+    });
 
     if (!email || !password) {
       return res.status(400).json({
@@ -80,7 +87,11 @@ export const getUser = async (req, res) => {
       name: existingUser.name,
     });
     if (await comparePassword(password, existingUser.password)) {
-      res.cookie("jwt", token, { maxAge: 7 * 24 * 24 * 60, httpOnly: true });
+      res.cookie("jwt", token, {
+        maxAge: 7 * 24 * 24 * 60 * 1000,
+        httpOnly: true,
+        secure: false,
+      });
       return res.status(200).json({
         message: "Login Successful",
         success: true,
@@ -103,15 +114,22 @@ export const getUser = async (req, res) => {
 export const checkAuth = async (req, res) => {
   try {
     // console.log(req);
-    let token = req.headers.authorization;
-    token = token.split(" ")[1];
 
-    console.log(token);
+    let token = req.cookies;
+    // console.log(token);
+    token = token.jwt;
+
+    // console.log(token);
 
     // return res;
 
-    console.log(await checktoken(token));
+    await checktoken(token);
+
+    return res.json({ message: "Auth Success", success: true });
   } catch (error) {
+    if (error.message == "invalid signature")
+      return res.status(401).json({ message: "Auth Failed", success: false });
+
     console.log("Error At Token Check/ \t", error.message);
     return res.status(500).json({
       message: "Error at Server",
