@@ -1,6 +1,7 @@
 import express from "express";
 import Env from "./config/env.js";
 import AuthRouter from "./route/auth.route.js";
+import FoodRouter from "./route/food.route.js";
 import connectDB from "./config/connectToDB.js";
 import cookieparser from "cookie-parser";
 import cors from "cors";
@@ -14,6 +15,7 @@ app.use(
   }),
 );
 app.use("/auth", AuthRouter);
+app.use("/food", FoodRouter);
 
 app.get("/", (req, res) => {
   res.json({
