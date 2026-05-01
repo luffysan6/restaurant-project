@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { Index, SaveFood } from "../controller/foot.controller.js";
+import { Index, SaveFood } from "../controller/food.controller.js";
 import upload from "../middleware/upload.middleware.cjs";
 
 const router = Router();

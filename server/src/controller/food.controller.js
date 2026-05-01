@@ -1,4 +1,6 @@
+import { response } from "express";
 import FoodModel from "../model/Food.model.js";
+import uploader from "../utils/uploader.js";
 export const Index = async (req, res) => {
   try {
     res.status(200).json({
@@ -19,21 +21,26 @@ export const SaveFood = async (req, res) => {
     const { title, price, description, category, status } = req.body || {};
     let FileData = req.files;
 
-    const PhotoArray = FileData.map((file) => file.path);
+    const PhotoPathArray = FileData.map((file) => file.path);
 
+    // return;
     if (!title || !price || !description || !category) {
       return res.status(403).json({
         message: "Please Provide All The Require Info",
       });
     }
 
+    let imageResult = await uploader(PhotoPathArray);
+
     const foodData = new FoodModel();
     foodData.title = title;
     foodData.description = description;
     foodData.price = price;
     foodData.category = category;
-    foodData.status = status;
-    foodData.images = PhotoArray;
+    if (status) {
+      foodData.status = status;
+    }
+    foodData.images = imageResult;
 
     const result = await foodData.save();
 
