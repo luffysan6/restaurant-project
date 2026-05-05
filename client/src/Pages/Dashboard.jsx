@@ -1,5 +1,21 @@
+import authStore from "../store/authStore";
+import AdminDashboard from "./AdminDashboard";
+import UserDashBoard from "./UserDashBoard";
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  const { authType } = authStore();
+  if (authType == "admin") {
+    return (
+      <>
+        <AdminDashboard />
+      </>
+    );
+  }
+  return (
+    <>
+      <UserDashBoard />
+    </>
+  );
 };
 
 export default Dashboard;

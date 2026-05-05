@@ -1,5 +1,6 @@
 import { useState } from "react";
 import NavbarComp from "../Components/Navbar";
+import "../index.css";
 
 const Home = () => {
   const [dishes, setdishes] = useState([

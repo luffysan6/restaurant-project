@@ -4,6 +4,7 @@ import { axiosInstance } from "../utils/axios";
 const authStore = create((set, get) => ({
   isAuth: false,
   authToken: null,
+  authType: null,
   checkAuth: async () => {
     let request = await axiosInstance.get("/auth/check");
 
@@ -12,6 +13,7 @@ const authStore = create((set, get) => ({
 
     if (success) {
       set({ isAuth: true });
+      set({ authType: request.data.role });
     }
     return;
   },
@@ -25,6 +27,7 @@ const authStore = create((set, get) => ({
 
     if (result.success) {
       set({ isAuth: true });
+      set({ authType: result.role });
     }
     return result;
   },

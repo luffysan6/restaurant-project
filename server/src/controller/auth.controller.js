@@ -1,4 +1,3 @@
-import { response } from "express";
 import UserModel from "../model/User.model.js";
 import { comparePassword, genHashPassword } from "../utils/bcrypt.js";
 import { checktoken, gentoken } from "../utils/genToken.js";
@@ -82,11 +81,13 @@ export const getUser = async (req, res) => {
     const existingUser = await UserModel.findOne({
       email: email,
     });
-    const token = await gentoken({
-      id: existingUser._id,
-      name: existingUser.name,
-    });
     if (await comparePassword(password, existingUser.password)) {
+      const token = await gentoken({
+        id: existingUser._id,
+        name: existingUser.name,
+        role: existingUser.role,
+      });
+
       res.cookie("jwt", token, {
         maxAge: 7 * 24 * 24 * 60 * 1000,
         httpOnly: true,
@@ -95,6 +96,7 @@ export const getUser = async (req, res) => {
       return res.status(200).json({
         message: "Login Successful",
         success: true,
+        role: existingUser.role,
       });
     } else {
       return res.status(400).json({
@@ -123,9 +125,13 @@ export const checkAuth = async (req, res) => {
 
     // return res;
 
-    await checktoken(token);
+    const { payload } = await checktoken(token);
 
-    return res.json({ message: "Auth Success", success: true });
+    return res.json({
+      message: "Auth Success",
+      success: true,
+      role: payload.role,
+    });
   } catch (error) {
     if (error.message == "invalid signature")
       return res.status(401).json({ message: "Auth Failed", success: false });
