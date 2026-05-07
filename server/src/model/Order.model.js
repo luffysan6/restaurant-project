@@ -4,7 +4,7 @@ const orderItemSchema = new mongoose.Schema(
   {
     food: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Food",
+      ref: "food",
       required: true,
     },
     quantity: {
@@ -26,7 +26,7 @@ const orderSchema = new mongoose.Schema(
     items: {
       type: [orderItemSchema],
       validate: [
-        (val) => Array.isArray(val) && val.length <= 0,
+        (val) => Array.isArray(val) && val.length > 0,
         "Order must contain at least one item",
       ],
     },
@@ -37,7 +37,13 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Preparing", "Delivered"],
+      enum: [
+        "Pending",
+        "Preparing",
+        "Delivered",
+        "CancelByUser",
+        "CancelByAdmin",
+      ],
       default: "Pending",
     },
   },

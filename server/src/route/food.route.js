@@ -6,12 +6,29 @@ import {
   updateFood,
 } from "../controller/food.controller.js";
 import upload from "../middleware/upload.middleware.cjs";
+import authMiddleware from "../middleware/auth.middleware.js";
+import { roleMiddleware } from "../middleware/role.middleware.js";
 
 const router = Router();
 
 router.get("/", GetAllFood);
-router.post("/", upload.array("images"), SaveFood);
-router.delete("/:id", deleteMenu);
-router.put("/update/:id", upload.array("images"), updateFood);
+
+router.post(
+  "/",
+  authMiddleware,
+  roleMiddleware("admin"),
+  upload.array("images"),
+  SaveFood,
+); // secure
+
+router.delete("/:id", authMiddleware, roleMiddleware("admin"), deleteMenu); // secure
+
+router.put(
+  "/update/:id",
+  authMiddleware,
+  roleMiddleware("admin"),
+  upload.array("images"),
+  updateFood,
+); // secure
 
 export default router;

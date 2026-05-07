@@ -143,3 +143,14 @@ export const checkAuth = async (req, res) => {
     });
   }
 };
+export const logout = async (req, res) => {
+  res.clearCookie("jwt", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  });
+  return res.status(200).json({
+    message: "Logout Successfully",
+    success: true,
+  });
+};

@@ -5,6 +5,7 @@ import FoodRouter from "./route/food.route.js";
 import connectDB from "./config/connectToDB.js";
 import cookieparser from "cookie-parser";
 import cors from "cors";
+import OrderRouter from "./route/order.route.js";
 const app = express();
 app.use(express.json());
 app.use(cookieparser());
@@ -16,6 +17,7 @@ app.use(
 );
 app.use("/auth", AuthRouter);
 app.use("/food", FoodRouter);
+app.use("/order", OrderRouter);
 
 app.get("/", (req, res) => {
   res.json({
@@ -32,5 +34,3 @@ async function startServer() {
 }
 
 startServer();
-
-
