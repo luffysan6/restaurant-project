@@ -8,7 +8,7 @@ const Login = () => {
   const [password, setpassword] = useState("");
   const { Login } = authStore();
   const navigate = useNavigate();
-  console.log({ email, password });
+  // console.log({ email, password });
   // getAuth({ email, password });
   // debugger();
 

@@ -5,7 +5,7 @@ import authStore from "../store/authStore";
 const Button = () => {
   let { user, setuser } = useContext(AuthContext);
   let { count, setcount, getcount } = authStore();
-  console.log(user);
+  // console.log(user);
 
   return (
     <div>

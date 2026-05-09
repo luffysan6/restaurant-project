@@ -98,7 +98,7 @@ const AdminDashboard = () => {
   const handleUpdateFood = async (id) => {
     const foodFromID = foods.filter((item) => item._id == id);
 
-    console.log(foodFromID[0]);
+    // console.log(foodFromID[0]);
     const foodSelectIdData = foodFromID[0];
 
     setForm({

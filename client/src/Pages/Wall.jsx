@@ -1,7 +1,7 @@
 import Button from "./Button";
 
 const Wall = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   return (
     <div>
       Wall

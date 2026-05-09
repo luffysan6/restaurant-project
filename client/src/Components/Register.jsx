@@ -9,7 +9,7 @@ const Register = () => {
   let navigate = useNavigate();
   let { Register } = authStore();
 
-  console.log({ email, password });
+  // console.log({ email, password });
   const handleRegister = async (e) => {
     e.preventDefault();
     const res = await Register({ name, email, password });
