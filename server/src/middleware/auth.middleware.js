@@ -12,8 +12,9 @@ const authMiddleware = async (req, res, next) => {
     const { payload } = await checktoken(JWT);
 
     // console.log(tokenData);
-
+    console.log(payload);
     req.role = payload.role ? payload.role : "undefined";
+    req.user = payload.id ? payload.id : "undefined";
     next(); // pass it to next controller or middleware
   } catch (error) {
     if (

@@ -6,6 +6,8 @@ import HomePage from "./Pages/Home.jsx";
 import AuthContextComp from "./store/AuthContext.jsx";
 import DashboardPage from "./Pages/Dashboard.jsx";
 import Protector from "./Components/Protector.jsx";
+import AdminOrdersPage from "./Pages/AdminOrders.jsx";
+import NavbarComp from "./Components/Navbar.jsx";
 
 createRoot(document.getElementById("root")).render(
   // <StrictMode>
@@ -22,7 +24,17 @@ createRoot(document.getElementById("root")).render(
           path="/dashboard"
           element={
             <Protector>
+              <NavbarComp />
               <DashboardPage />
+            </Protector>
+          }
+        />
+        <Route
+          path="/admin/orders"
+          element={
+            <Protector>
+              <NavbarComp />
+              <AdminOrdersPage />
             </Protector>
           }
         />

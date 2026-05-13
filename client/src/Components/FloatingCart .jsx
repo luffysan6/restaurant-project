@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { FaShoppingCart, FaTimes } from "react-icons/fa";
-
+import foodStore from "../store/foodStore";
 const FloatingCart = ({ cart = [], onIncrease, onDecrease }) => {
   const [open, setOpen] = useState(false);
 
+  const { calculateCartTotals, CreateOrder } = foodStore();
+  const result = calculateCartTotals();
+
   return (
     <>
-      {/* Floating Button */}
       <div className="cart-float" onClick={() => setOpen(true)}>
         <FaShoppingCart />
         {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
       </div>
 
-      {/* Overlay */}
       {open && <div className="cart-overlay" onClick={() => setOpen(false)} />}
 
-      {/* Cart Popup */}
       <div className={`cart-popup ${open ? "show" : ""}`}>
         <div className="cart-header">
           <h3>Your Cart</h3>
@@ -44,11 +44,15 @@ const FloatingCart = ({ cart = [], onIncrease, onDecrease }) => {
         </div>
 
         <div className="cart-footer">
-          <button className="checkout-btn">Checkout</button>
+          <button
+            onClick={() => CreateOrder(result.totalPrice)}
+            className="checkout-btn"
+          >
+            Checkout for ₹{result.totalPrice}
+          </button>
         </div>
       </div>
     </>
   );
 };
-
 export default FloatingCart;

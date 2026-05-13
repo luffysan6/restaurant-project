@@ -2,18 +2,36 @@ import { Router } from "express";
 import {
   CancelOrderForUser,
   CreateOrder,
-  DeleteOrderById,
   GetAllOrderAdmin,
   GetAllOrderUser,
+  updateOrderStatus,
 } from "../controller/order.controller.js";
+import authMiddleware from "../middleware/auth.middleware.js";
+import { roleMiddleware } from "../middleware/role.middleware.js";
 
 const router = Router();
 
-router.get("/", GetAllOrderAdmin); // secure
-router.get("/user/:id", GetAllOrderUser); // secure
-router.post("/", CreateOrder); // secure
-router.delete("/:id", DeleteOrderById); // secure
-router.post("/order/:id", CancelOrderForUser); // secure
+router.get("/", authMiddleware, roleMiddleware("admin"), GetAllOrderAdmin); // secure
+router.get(
+  "/user/",
+  authMiddleware,
+  roleMiddleware("user"),
+  GetAllOrderUser,
+); // secure
+router.post("/", authMiddleware,roleMiddleware("admin"), CreateOrder); // secure
+// router.delete("/:id", authMiddleware, roleMiddleware("admin"), DeleteOrderById); // secure
+router.post(
+  "/order/:id",
+  authMiddleware,
+  roleMiddleware("user"),
+  CancelOrderForUser,
+);
+router.post(
+  "/update/:id",
+  authMiddleware,
+  roleMiddleware("admin"),
+  updateOrderStatus,
+); // secure
 // anyone can make reqest to this api
 // we need secure them
 // router.post("/:id", "update order status for admin");

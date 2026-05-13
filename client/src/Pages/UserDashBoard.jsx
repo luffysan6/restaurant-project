@@ -4,6 +4,7 @@ import FloatingCart from "../Components/FloatingCart ";
 // import foodStore from "../store/foodStore";
 import { axiosInstance } from "../utils/axios";
 import foodStore from "../store/foodStore";
+import FloatingOrders from "../Components/FloatingOrders";
 
 const UserDashBoard = () => {
   const { cartItems, onIncrease, onDecrease } = foodStore();
@@ -65,6 +66,7 @@ const UserDashBoard = () => {
         onIncrease={onIncrease}
         onDecrease={onDecrease}
       />
+      <FloatingOrders />  
     </div>
   );
 };

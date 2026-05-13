@@ -11,7 +11,7 @@ import { roleMiddleware } from "../middleware/role.middleware.js";
 
 const router = Router();
 
-router.get("/", GetAllFood);
+router.get("/",authMiddleware, GetAllFood);
 
 router.post(
   "/",

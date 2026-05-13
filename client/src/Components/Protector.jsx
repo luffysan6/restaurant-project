@@ -10,11 +10,7 @@ const Protector = ({ children }) => {
   if (isAuth) {
     return <>{children}</>;
   }
-  return (
-    <div>
-      <h1>You are not authenticated </h1>
-    </div>
-  );
+  return window.location.replace("/");
 };
 
 export default Protector;

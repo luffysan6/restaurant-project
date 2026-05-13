@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { NavLink } from "react-router";
+import authStore from "../store/authStore";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { isAuth, logout } = authStore();
 
   function toggleMobile() {
     setIsOpen((prev) => !prev);
@@ -33,9 +35,15 @@ const Navbar = () => {
             <a href="#contact">CONTACT</a>
           </li>
           <li>
-            <NavLink className="nav-cta" to={"/login"}>
-              Login
-            </NavLink>
+            {isAuth ? (
+              <NavLink className="nav-cta" onClick={logout}>
+                Logout
+              </NavLink>
+            ) : (
+              <NavLink className="nav-cta" to={"/login"}>
+                Login
+              </NavLink>
+            )}
           </li>
         </ul>
 

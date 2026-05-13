@@ -47,6 +47,14 @@ const authStore = create((set, get) => ({
     }
     return result;
   },
+  logout: async () => {
+    const res = await axiosInstance.get("/auth/logout");
+    console.log(res);
+    if (res.data.success == true) {
+      alert("Logout Successfully");
+      window.location.replace("/");
+    }
+  },
 }));
 
 export default authStore;
